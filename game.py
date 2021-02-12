@@ -2,6 +2,7 @@
 file with game class
 """
 import settings
+import snake
 import pygame
 import sys
 
@@ -18,6 +19,8 @@ class Game:
         self.clock = pygame.time.Clock()
         #flag with game stance
         self.game_on = False
+        #make new snake
+        self.snk = snake.Snake()
 
     #methon with main game loop
     def run(self):
@@ -25,10 +28,18 @@ class Game:
             self.manage_input()
             #run game only when game playing flag is set True
             if self.game_on:
-                pass
+                self.update()
+                self.draw()
             #update the screen and wait for proper framerate
             pygame.display.update()
             self.clock.tick(settings.FRAME_RATE)
+
+    def update(self):
+        self.snk.update()
+    
+    def draw(self):
+        self.window.fill(settings.BG_COLOR)
+        self.snk.draw(self.window)
 
     #input managing method
     def manage_input(self):
@@ -40,5 +51,6 @@ class Game:
                 sys.exit()
             #manage keyup events
             if event.type == KEYUP:
+                #change game stance to True if it is False
                 if not self.game_on:
                     self.game_on = True 
