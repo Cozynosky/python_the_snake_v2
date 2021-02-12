@@ -41,6 +41,18 @@ class Snake:
             new_pos = part.rect
         self.body = temp_body
 
+    #detect wall collision
+    def wall_collision(self):
+        if self.head.rect.top < 80:
+            return True
+        elif self.head.rect.bottom > 448:
+            return True
+        elif self.head.rect.left < 32:
+            return True
+        elif self.head.rect.right > 384:
+            return True
+        return False 
+
     #draw parts on the screen
     def draw(self, window):
         self.head.draw(window)
