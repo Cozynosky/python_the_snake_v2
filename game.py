@@ -14,11 +14,19 @@ class Game:
     def __init__(self):
         #start game window
         self.window = pygame.display.set_mode((settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT))
+        #create game clock
         self.clock = pygame.time.Clock()
+        #flag with game stance
+        self.game_on = False
 
+    #methon with main game loop
     def run(self):
         while True:
             self.manage_input()
+            #run game only when game playing flag is set True
+            if self.game_on:
+                pass
+            #update the screen and wait for proper framerate
             pygame.display.update()
             self.clock.tick(settings.FRAME_RATE)
 
@@ -30,3 +38,7 @@ class Game:
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
+            #manage keyup events
+            if event.type == KEYUP:
+                if not self.game_on:
+                    self.game_on = True 
