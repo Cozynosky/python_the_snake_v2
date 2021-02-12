@@ -21,6 +21,8 @@ class Game:
         self.ticks = 0
         #flag with game stance
         self.game_on = False
+        #store ticks since last facing change to avoid bugs
+        self.time_since_change = 0
         #make new snake
         self.snk = snake.Snake()
 
@@ -34,7 +36,9 @@ class Game:
                 self.update()
                 self.draw()
                 self.ticks = 0
+                self.time_since_change = 10
             self.ticks += 1
+            self.time_since_change += 1
             #update the screen and wait for proper framerate
             pygame.display.update()
             self.clock.tick(settings.FRAME_RATE)
@@ -62,11 +66,17 @@ class Game:
                 if not self.game_on:
                     self.game_on = True
             elif event.type == KEYDOWN:
-                if (event.key == K_a or event.key == K_LEFT) and self.snk.facing != "right":
-                    self.snk.facing = "left"
-                elif (event.key == K_d or event.key == K_RIGHT) and self.snk.facing != 'left':
-                    self.snk.facing = "right"
-                elif (event.key == K_w or event.key == K_UP) and self.snk.facing != 'down':
-                    self.snk.facing = "up"
-                elif (event.key == K_s or event.key == K_DOWN) and self.snk.facing != 'up':
-                    self.snk.facing = "down"
+                #manage changing direction only when snake is ready, otherway we could go backwards
+                if self.time_since_change >= settings.GAME_SPEED:
+                    if (event.key == K_a or event.key == K_LEFT) and self.snk.facing != "right":
+                        self.snk.facing = "left"
+                        self.time_since_change = 0
+                    elif (event.key == K_d or event.key == K_RIGHT) and self.snk.facing != 'left':
+                        self.snk.facing = "right"
+                        self.time_since_change = 0
+                    elif (event.key == K_w or event.key == K_UP) and self.snk.facing != 'down':
+                        self.snk.facing = "up"
+                        self.time_since_change = 0
+                    elif (event.key == K_s or event.key == K_DOWN) and self.snk.facing != 'up':
+                        self.snk.facing = "down"
+                        self.time_since_change = 0
