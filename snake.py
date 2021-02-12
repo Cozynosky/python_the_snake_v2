@@ -59,6 +59,11 @@ class Snake:
             return True
         return False
 
+    def apple_collision(self,apple):
+        if self.head.rect.colliderect(apple.rect):
+            return True
+        return False
+
     #draw parts on the screen
     def draw(self, window):
         self.head.draw(window)

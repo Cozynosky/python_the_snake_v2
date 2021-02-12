@@ -2,6 +2,7 @@
 file with game class
 """
 import settings
+import apple
 import snake
 import pygame
 import sys
@@ -17,14 +18,8 @@ class Game:
         self.window = pygame.display.set_mode((settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT))
         #create game clock
         self.clock = pygame.time.Clock()
-        #varviable to control snake speed
-        self.ticks = 0
-        #flag with game stance
-        self.game_on = False
-        #store ticks since last facing change to avoid bugs
-        self.time_since_change = 0
-        #make new snake
-        self.snk = snake.Snake()
+        #create new game
+        self.new_game()
 
     #method with main game loop
     def run(self):
@@ -43,17 +38,30 @@ class Game:
             pygame.display.update()
             self.clock.tick(settings.FRAME_RATE)
 
+    #make new game method
+    def new_game(self):
+        #variable to control snake speed
+        self.ticks = 0
+        #flag with game stance
+        self.game_on = False
+        #store ticks since last facing change to avoid bugs
+        self.time_since_change = 0
+        #make new snake
+        self.snk = snake.Snake()
+        #make new apple
+        self.appl = apple.Apple(self.snk)
+
     #update objects positions
     def update(self):
         self.snk.update()
         #check if snake collided with wall, if true end active game and reset snake
         if self.snk.wall_collision() or self.snk.self_collision():
-            self.game_on = False
-            self.snk = snake.Snake()
+            self.new_game()
     
     #draw game elements on the screen
     def draw(self):
         self.window.blit(settings.BG,(0,0))
+        self.appl.draw(self.window)
         self.snk.draw(self.window)
 
     #input managing method
