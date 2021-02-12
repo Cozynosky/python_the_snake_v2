@@ -47,7 +47,7 @@ class Game:
     def update(self):
         self.snk.update()
         #check if snake collided with wall, if true end active game and reset snake
-        if self.snk.wall_collision():
+        if self.snk.wall_collision() or self.snk.self_collision():
             self.game_on = False
             self.snk = snake.Snake()
     

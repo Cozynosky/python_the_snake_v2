@@ -53,6 +53,12 @@ class Snake:
             return True
         return False 
 
+    #detect self collision
+    def self_collision(self):
+        if pygame.sprite.spritecollideany(self.head,self.body):
+            return True
+        return False
+
     #draw parts on the screen
     def draw(self, window):
         self.head.draw(window)
