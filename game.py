@@ -40,6 +40,8 @@ class Game:
 
     #make new game method
     def new_game(self):
+        #varaible to store our score
+        self.score = 0
         #variable to control snake speed
         self.ticks = 0
         #flag with game stance
@@ -57,6 +59,12 @@ class Game:
         #check if snake collided with wall, if true end active game and reset snake
         if self.snk.wall_collision() or self.snk.self_collision():
             self.new_game()
+        elif self.snk.apple_collision(self.appl):
+            self.score += 1
+            self.appl = apple.Apple(self.snk)
+            #make snake grow up
+            self.snk.grow = True
+            print(self.score)
     
     #draw game elements on the screen
     def draw(self):

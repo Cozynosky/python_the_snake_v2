@@ -15,6 +15,8 @@ class Snake:
         self.body = pygame.sprite.Group()
         self.body.add(BodyPart(208,224))
         self.body.add(BodyPart(224,224))
+        #flag to know snake just ate apple
+        self.grow = False
     
     #updating head and body positions
     def update(self):
@@ -38,8 +40,12 @@ class Snake:
         temp_body = pygame.sprite.Group()
         for part in self.body:
             temp_body.add(BodyPart(new_pos.x,new_pos.y))
-            new_pos = part.rect
+            new_pos = part.rect  
         self.body = temp_body
+        #if snake ate apple make it bigger
+        if self.grow:
+            self.body.add(BodyPart(new_pos.x,new_pos.y))
+            self.grow = False
 
     #detect wall collision
     def wall_collision(self):
@@ -53,12 +59,15 @@ class Snake:
             return True
         return False 
 
+
+
     #detect self collision
     def self_collision(self):
         if pygame.sprite.spritecollideany(self.head,self.body):
             return True
         return False
 
+    #apple collision method
     def apple_collision(self,apple):
         if self.head.rect.colliderect(apple.rect):
             return True

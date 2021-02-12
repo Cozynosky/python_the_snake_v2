@@ -17,6 +17,7 @@ class Apple(pygame.sprite.Sprite):
         self.rect = pygame.Rect(x,y,16,16)
         self.image = pygame.Surface((16,16))
         self.image.fill(settings.APPLE_COLOR)
+        #if new apple spawned on collision make new one
         if snake.head.rect.colliderect(self.rect) or pygame.sprite.spritecollideany(self,snake.body):
             self.make_apple(snake)
     
