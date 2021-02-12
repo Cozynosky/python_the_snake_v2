@@ -49,7 +49,7 @@ class Game:
     
     #draw game elements on the screen
     def draw(self):
-        self.window.fill(settings.BG_COLOR)
+        self.window.blit(settings.BG,(0,0))
         self.snk.draw(self.window)
 
     #input managing method
