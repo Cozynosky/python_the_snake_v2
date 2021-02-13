@@ -68,6 +68,7 @@ class Game:
         self.snk.update()
         # check if snake collided with wall, if true end active game and reset snake, show game over info and wait some time
         if self.snk.wall_collision() or self.snk.self_collision():
+            settings.gameover.play()
             #check if record was beated when died
             if self.score > self.high_score:
                 self.high_score = self.score
@@ -78,6 +79,7 @@ class Game:
             pygame.display.update()
             pygame.time.delay(700)
         elif self.snk.apple_collision(self.appl):
+            settings.score.play()
             self.score += 1
             self.appl = apple.Apple(self.snk)
             # make snake grow up

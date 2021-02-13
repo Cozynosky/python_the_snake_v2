@@ -33,3 +33,8 @@ NUMBERS = [
     pygame.image.load("sprites/8.png"),
     pygame.image.load("sprites/9.png"),
 ]
+
+#loadsounds
+pygame.mixer.init()
+score = pygame.mixer.Sound("sounds/eat.wav")
+gameover = pygame.mixer.Sound("sounds/gameover.wav")
