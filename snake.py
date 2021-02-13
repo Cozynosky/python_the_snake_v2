@@ -11,11 +11,11 @@ class Snake:
 
     # metod making new snake
     def make_snake(self):
-        self.head = BodyPart(192, 224)
+        self.head = BodyPart(192, 256)
         self.facing = "left"
         self.body = pygame.sprite.Group()
-        self.body.add(BodyPart(208, 224))
-        self.body.add(BodyPart(224, 224))
+        self.body.add(BodyPart(208, 256))
+        self.body.add(BodyPart(224, 256))
         # flag to know snake just ate apple
         self.grow = False
 

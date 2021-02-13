@@ -29,6 +29,10 @@ class Game:
         self.draw()
         while True:
             self.manage_input()
+            if not self.game_on:
+                rect = settings.PRESS.get_rect()
+                rect.center = self.window.get_rect().center
+                self.window.blit(settings.PRESS,rect)
             # run game only when game playing flag is set True
             if self.game_on and self.ticks % settings.GAME_SPEED == 0:
                 self.update()
@@ -59,9 +63,14 @@ class Game:
     # update objects positions
     def update(self):
         self.snk.update()
-        # check if snake collided with wall, if true end active game and reset snake
+        # check if snake collided with wall, if true end active game and reset snake, show game over info and wait some time
         if self.snk.wall_collision() or self.snk.self_collision():
             self.new_game()
+            rect = settings.GAME_OVER.get_rect()
+            rect.center = self.window.get_rect().center
+            self.window.blit(settings.GAME_OVER,rect)
+            pygame.display.update()
+            pygame.time.delay(700)
         elif self.snk.apple_collision(self.appl):
             self.score += 1
             self.appl = apple.Apple(self.snk)

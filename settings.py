@@ -18,6 +18,8 @@ APPLE_COLOR = (0, 200, 0)
 GAME_SPEED = 10
 
 # loadimages
+PRESS = pygame.image.load("sprites/press_to_start.png")
+GAME_OVER =  pygame.image.load("sprites/game_over.png")
 BG = pygame.image.load("sprites/background.png")
 NUMBERS = [
     pygame.image.load("sprites/0.png"),
