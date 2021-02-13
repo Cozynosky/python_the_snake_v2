@@ -6,6 +6,7 @@ import apple
 import snake
 import pygame
 import sys
+import pickle
 
 from pygame.locals import *
 
@@ -23,6 +24,8 @@ class Game:
         self.clock = pygame.time.Clock()
         # create new game
         self.new_game()
+        #load hs
+        self.load_high_score()
 
     # method with main game loop
     def run(self):
@@ -65,6 +68,9 @@ class Game:
         self.snk.update()
         # check if snake collided with wall, if true end active game and reset snake, show game over info and wait some time
         if self.snk.wall_collision() or self.snk.self_collision():
+            #check if record was beated when died
+            if self.score > self.high_score:
+                self.high_score = self.score
             self.new_game()
             rect = settings.GAME_OVER.get_rect()
             rect.center = self.window.get_rect().center
@@ -83,6 +89,7 @@ class Game:
         self.appl.draw(self.window)
         self.snk.draw(self.window)
         self.draw_score()
+        self.draw_high_score()
 
     # special met to draw score
     def draw_score(self):
@@ -93,6 +100,29 @@ class Game:
         rect = surface.get_rect()
         rect.topleft = (150,38)
         self.window.blit(surface,rect)
+    
+    # draw high score
+    def draw_high_score(self):
+        s_scr = str(self.high_score)
+        surface = pygame.Surface((21 * len(s_scr),27))
+        for i in range(len(s_scr)):
+            surface.blit(settings.NUMBERS[int(s_scr[i])],(16*i,0))
+        rect = surface.get_rect()
+        rect.topleft = (310,38)
+        self.window.blit(surface,rect)
+
+    #load hi score from file
+    def load_high_score(self):
+        try:
+            with open("highscores","rb") as f:
+                self.high_score = pickle.load(f)
+        except:
+            self.high_score = 0    
+
+    #save high score
+    def save_high_score(self):
+        with open("highscores","wb") as f:
+                pickle.dump(self.high_score,f)
 
     # input managing method
     def manage_input(self):
@@ -100,6 +130,7 @@ class Game:
         for event in pygame.event.get():
             # if player exits window stop pygame module and close program
             if event.type == QUIT:
+                self.save_high_score()
                 pygame.quit()
                 sys.exit()
             # manage keyup events
